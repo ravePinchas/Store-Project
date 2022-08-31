@@ -1,0 +1,68 @@
+<% layout('./layouts/boilerplate') %>
+
+<link href="styles/register.css" rel="stylesheet" type="text/css" />
+
+<main class="main container">
+    <section>
+        <div class="section-title">
+            <h2>Register<span>.</span></h2>
+        </div>
+
+        <% if (typeof(user) == "undefined") { %>
+
+        <p>
+            Create a new user account.
+        </p>
+
+        <br>
+        <br>
+
+        <div class="register-wrapper">
+            <form class="form" action="/register" method="POST">
+                <div class="form-field">
+                    <label for="username">Email</label>
+                    <input class="form-input" id="username" name="username" type="email" placeholder="Enter your email"required="required" />
+                </div>
+                <div class="form-field">
+                    <label for="firstName">First Name</label>
+                    <input class="form-input" id="firstName" name="firstName" type="text" placeholder="Enter your first name" required="required" />
+                </div>
+                <div class="form-field">
+                    <label for="lastName">Last Name</label>
+                    <input class="form-input" id="lastName" name="lastName" type="text" placeholder="Enter your last name" required="required"/>
+                </div>
+                <div class="form-field">
+                    <label for="password">Password</label>
+                    <input class="form-input" id="password" name="password" type="text" placeholder="Enter a new password" required="required"/>
+                </div>
+                <div class="form-submit">
+                    <button class="btn btn-block btn-primary" type="submit">Create account</button>
+                </div>
+            </form>
+
+            <div class="log-options">
+                <div class="social-auth">
+                    <p>Don't want to create a new user?</p>
+                    <a href="/auth/google" role="button" class="btn btn-block google-auth"><i class="fa fa-google"></i> Continue with Google</a>
+                    <a href="/auth/facebook" role="button" class="btn btn-block facebook-auth"><i class="fa fa-facebook"></i> Continue with Facebook</a>
+                </div>
+                <div>
+                    <p>Already have an account?</p>
+                    <a href="/login" role="button" class="btn btn-block btn-link">Log In Now</a>
+                </div>
+            </div>
+        </div>
+
+        <% } else { %>
+
+        <p>
+            You are already registered to TechStore, you are currently logged in via: <b><%=user.email %></b>.
+            <br>
+            If you want to create a new user account, try <a href="/logout" target="_self" class="btn btn-link">logging out</a> first.
+        </p>
+        
+        <% } %>
+    </section>
+</main>
+
+<% layout('./layouts/boilerplate') %>

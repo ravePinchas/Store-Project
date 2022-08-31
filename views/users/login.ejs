@@ -1,0 +1,57 @@
+<% layout('./layouts/boilerplate') %>
+
+<link href="styles/login.css" rel="stylesheet" type="text/css" />
+
+
+<main class="main container">
+    <section>
+        <div class="section-title">
+            <h2>Login<span>.</span></h2>
+        </div>
+
+        <% if (typeof(user) == "undefined") { %>
+
+        <p>
+            Log Into your TechStore account.
+        </p>
+
+        <br>
+        <br>
+
+        <div class="login-wrapper">
+            <form class="form" action="/login" method="POST">
+                <div class="form-field">
+                    <label for="username">Email</label>
+                    <input class="form-input" id="username" name="username" type="email" placeholder="Enter your email" required="required"/>
+                </div>
+                <div class="form-field">
+                    <label for="password">Password</label>
+                    <input class="form-input" id="password" name="password" type="password" placeholder="Enter your password" required="required"/>
+                </div>
+                <div class="form-submit">
+                    <button class="btn btn-block btn-primary" type="submit">Log In</button>
+                </div>
+                <div class="form-sign-p">
+                    <p>Don't have an account? <a href="/register" role="button" class="btn btn-link">Sign Up Now</a></p>
+                </div>
+            </form>
+            <div class="log-options">
+                <div class="social-auth">
+                    <p>or</p>
+                    <a href="/auth/google" role="button" class="btn btn-block google-auth"><i class="fa fa-google"></i> Continue with Google</a>
+                    <a href="/auth/facebook" role="button" class="btn btn-block facebook-auth"><i class="fa fa-facebook"></i> Continue with Facebook</a>
+                </div>
+            </div>
+        </div>
+
+        <% } else { %>
+
+        <p>
+            It seems like you are already logged in to TechStore via: <b><%=user.email %></b>.
+        </p>
+        
+        <% } %>
+    </section>
+</main>
+
+<% layout('./layouts/boilerplate') %>

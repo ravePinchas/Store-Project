@@ -1,0 +1,49 @@
+<% layout('./layouts/boilerplate') %>
+
+
+<link href="styles/add-product.css" rel="stylesheet" type="text/css" />
+
+
+<% if (typeof(user) != "undefined") { %>
+
+<main class="main container">
+    <section>
+        <div class="section-title">
+            <h2>Add Product<span>.</span></h2>
+
+        </div>
+
+        <p>
+            Add a new product to the store.
+        </p>
+
+        <br>
+        <br>
+
+        <form class="form" action="/add-product" method="POST">
+            <div class="form-field">
+                <label for="name">Product Name</label>
+                <input class="form-input" type="text" name="name" id="name" placeholder="Enter product name" required="required">
+            </div>
+            <div class="form-field">
+                <label for="description">Product Description</label>
+                <textarea class="form-input" name="description" id="description" rows="5" placeholder="Enter description" required="required"></textarea>
+            </div>
+            <div class="form-field">
+                <label for="url">Image URL</label>
+                <input class="form-input" type="text" name="url" id="url" placeholder="Enter an image url" required="required">
+            </div>
+            <div class="form-field">
+                <label for="price">Price (in U.S. Dollar)</label>
+                <input class="form-input" type="number" name="price" id="price" step="0.01" placeholder="Enter price" required="required">
+            </div>
+            <button class="btn btn-block btn-primary" type="submit">Add Product <i class="fa fa-upload" aria-hidden="true"></i></button>
+        </form>
+    </section>
+</main>
+
+<% } else { %>
+    <% throw 'restricted access'; %>
+<% } %>
+
+<% layout('./layouts/boilerplate') %>

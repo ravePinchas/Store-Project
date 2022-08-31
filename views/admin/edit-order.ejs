@@ -1,0 +1,73 @@
+<% layout('./layouts/boilerplate') %>
+
+<link href="/styles/edit-order.css" rel="stylesheet" type="text/css" />
+
+<% if (typeof(user) != "undefined") { %>
+
+<main class="main container">
+    <section>
+        <div class="section-title">
+            <h2>Edit Order<span>.</span></h2>
+        </div>
+
+        <p>
+            You are currently editing order <b><%= order._id %></b>, by <b><%= user.email %></b>.
+        </p>
+
+        <br>
+        <br>
+
+        <form action="/update-order" method="POST" class="form">
+            <fieldset>
+                <h6 class="field-title">Order Items:</h6>
+                <table class="order-items">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Item</th>
+                            <th>Quantity</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for (let i=0; i < order.products.length; i++) { %>
+                        <tr>
+                            <th>Item <%=i + 1 %></th>
+                            <td><%= order.products[i].product.name%></td>
+                            <td>
+                                <label for="quantity<%=i %>" class="form-custom-number-input">
+                                    <i class="fa fa-minus" aria-hidden="true" onclick="{this.nextElementSibling.value = Math.max(0, +this.nextElementSibling.value - 1)}"></i>
+                                    <input type="number" name="quantity<%=i %>" id="quantity<%=i %>" min="0" max="99" value="<%= order.products[i].quantity %>">
+                                    <i class="fa fa-plus" aria-hidden="true" onclick="{this.previousElementSibling.value = Math.min(99, +this.previousElementSibling.value + 1)}"></i>
+                                </label>
+                            </td>
+                            <td>
+                                <input type="hidden" hidden value="<%= order.products[i].product._id %>" name="prodId">
+                                <input type="hidden" hidden name="prodToRemove" value="<%=order.products[i].product._id%>">
+                                <button type="submit" class="btn btn-outline" formaction="/delete-order-item/<%=order.products[i].product._id%>" title="Remove item from order">Remove</button>
+                            </td>
+                        </tr>
+                        <% }  // for-loop %>
+                    </tbody>
+                </table>
+            </fieldset>
+
+            <fieldset>
+                <h6 class="field-title">Delivery Method:</h6>
+                <select name="delivery" class="form-input">
+                    <option value="standard" data-price="2.49" selected>Standard Delivery ($2.49)</option>
+                    <option value="fast" data-price="6.99">Fast Delivery ($6.99)</option>
+                    <option value="collect" data-price="0">Collect (free)</option>
+                </select>
+            </fieldset>
+            <input type="hidden" hidden name="orderId" value="<%=order._id%>">
+            <button class="btn btn-primary btn-block" type="submit">Update Order</button>
+        </form>
+    </section>
+</main>
+
+<% } else { %>
+    <% throw 'restricted access'; %>
+<% } %>
+
+<% layout('./layouts/boilerplate') %>

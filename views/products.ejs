@@ -1,0 +1,86 @@
+<% layout('./layouts/boilerplate') %>
+
+<link href="styles/products.css" rel="stylesheet" type="text/css" />
+
+
+<main class="main container">
+    <section>
+        <div class="section-title">
+            <h2>Our Products<span>.</span></h2>
+        </div>
+
+        <p>
+            <% if (typeof(user) == "undefined") { %>
+                Browse our latest products - Log in to shop.
+            <% } else { %>
+                <b style="text-transform: capitalize;"><%=user.firstName %></b>, our shop is open - Let's buy something.
+            <% } %>
+        </p>
+
+        <br>
+        <br>
+
+        <% if (products.length > 0) { %>
+            <div class="product-grid">
+                <% for (const product of products) { %>
+                    <div class="product-card">
+                        <header class="product-card-header">
+                            <div class="product-card-header-img">
+                                <% if (product.url) { %>
+                                    <img src="<%=product.url %>" alt="">
+                                <% } else { %>
+                                    <img src="/images/default-product-image.png" alt="">
+                                <% } %>
+                            </div>
+                            <h2 class="product-card-header-name">
+                                <% if (product.name) { %>
+                                    <%=product.name %>
+                                <% } else { %>
+                                    Product Name
+                                <% } %>
+                            </h2>
+                        </header>
+                        <div class="product-card-content">
+                            <p class="product-card-description">
+                                <% if (product.description) { %>
+                                    <%=product.description %>
+                                <% } else { %>
+                                    No description available.
+                                <% } %>
+                            </p>
+                            <h3 class="product-card-price">$ <%=product.price %></h3>
+                        </div>
+                        <% if (typeof(user) != "undefined") { %>
+                            <form action="/cart" method="post" class="product-card-actions">
+                                <label for="amount" class="form-custom-number-input" >
+                                    <i class="fa fa-minus" aria-hidden="true" onclick="{this.nextElementSibling.value = Math.max(0, +this.nextElementSibling.value - 1)}"></i>
+                                    <input type="number" name="amount" min="0" max="99" value="1">
+                                    <i class="fa fa-plus" aria-hidden="true" onclick="{this.previousElementSibling.value = Math.min(99, +this.previousElementSibling.value + 1)}"></i>
+                                </label>
+                                <input type="hidden" name="productId" value="<%=product._id %>">
+                                <button class="btn btn-primary" type="submit">Add to Cart</button>
+                            </form>
+                        <% } %>
+                        <% if ((typeof(user) != "undefined") && (user.role == "admin")){ %>
+                            <div class="ed-buttons">
+                                <form class="ed-form" action="/edit-product/<%= product._id %>" method="GET" title="Edit Product">
+                                    <input type="hidden" value="<%= product._id %>" name="productId">
+                                    <button class="btn btn-note" type="submit"><i class="fa fa-pencil" aria-hidden="true" ></i></button>
+                                </form>
+                                <form class="ed-form" action="/delete-product" method="POST" title="Delete Product">
+                                    <input type="hidden" value="<%= product._id %>" name="productId">
+                                    <button class="btn btn-warning" type="submit"><i class="fa fa-trash" aria-hidden="true" ></i></button>
+                                </form>
+                        </div>
+                        <% } %>
+
+                    </div>
+                <% } %>
+            </div>
+        <% } else { %>
+            <h3>No products has been found!</h3>
+        <% } %>
+    </section>
+</main>
+
+<% layout('./layouts/boilerplate') %>

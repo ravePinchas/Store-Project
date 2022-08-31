@@ -1,0 +1,97 @@
+<% layout('./layouts/boilerplate') %>
+
+<link href="styles/shopping-cart.css" rel="stylesheet" type="text/css" />
+
+
+<main class="main container">
+    <section>
+
+        <div class="section-title">
+            <h2>Shopping Cart<span>.</span></h2>
+        </div>
+
+        <p>Hello <b style="text-transform: capitalize;"><%=user.firstName %> <%=user.lastName %></b>, you have <b><%=cartProducts.length %></b> items in your cart.</p>
+
+        <% if (cartProducts.length > 0) { %>
+            <div class="cart-wrapper">
+                <table class="cart">
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for (const item of cartProducts) { %>
+                            <tr>
+                                <td>
+                                    <div class="cart-product-image">
+                                        <img src="<%=item.product.url %>" alt="Placholder Image" class="product-frame">
+                                    </div>
+                                    <p class="cart-product-name">
+                                        <%=item.product.name %>
+                                    </p>
+                                </td>
+                                <td>$<%=item.product.price %></td>
+                                <td><%=item.quantity %></td>
+                                <td>
+                                    $<%=item.product.price * item.quantity %>
+                                    <form action="/delete-cart-item" method="post">
+                                        <input type="hidden" hidden name="userId" value="<%=user._id %>">
+                                        <input type="hidden" hidden name="productId" value="<%=item.product._id%>">
+                                        <button type="submit" class="btn btn-outline">Remove</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        <% }  // for-loop %>
+                    </tbody>
+                </table>
+
+                <form class="summary" action="/checkout" method="post">
+                    <div class="summary-field">
+                        <h6 class="summary-field-title">total items</h6>
+                        <p class="summary-field-data"><%=totalAmount %></p>
+                    </div>
+                    <div class="summary-field">
+                        <h6 class="summary-field-title">Base Price</h6>
+                        <p class="summary-field-data">$<%=totalPrice %></p>
+                    </div>
+                    <div class="summary-field">
+                        <h6 class="summary-field-title">Promotions</h6>
+                        <label for="coupon-input" class="coupon-input-wrapper">
+                            <input type="text" id="coupon-input" class="form-input" value="" placeholder="Enter Coupon" >
+                            <a type="button" class="btn btn-primary coupon-btn">Apply</a>
+                        </label>
+                    </div>
+                    <div class="summary-field">
+                        <h6 class="summary-field-title">Delivery</h6>
+                        <select name="delivery-method" class="summary-delivery-selection form-input" onchange="[...document.forms].at(-1).finalPrice.previousElementSibling.innerText = '$' + ([...document.forms].at(-1).finalPrice.value = parseFloat([...document.forms].at(-1).finalPrice.dataset.totalprice) + parseFloat(this.selectedOptions[0].dataset.price))">
+                            <option value="standard" data-price="2.49" selected>Standard Delivery ($2.49)</option>
+                            <option value="fast" data-price="6.99">Fast Delivery ($6.99)</option>
+                            <option value="collect" data-price="0">Collect (free)</option>
+                        </select>
+                    </div>
+                    <div class="summary-field">
+                        <h6 class="summary-field-title">Final Price</h6>
+                        <p class="summary-field-data">$<%=totalPrice + 2.49 %></p>
+                        <input type="hidden" hidden name="finalPrice" data-totalPrice="<%=totalPrice %>" value="<%=totalPrice + 2.49 %>">
+                    </div>
+                    <div class="summary-checkout">
+                        <button type="submit" class="btn btn-block btn-primary">Checkout</button>
+                    </div>
+                </form>
+            </div>
+        <% } else { %>
+            <p>Your cart is empty. Keep shopping to find a cool items!</p>
+            <br>
+            <a href="/products" class="btn btn-primary">Keep shopping</a>
+        <% } %>
+      
+
+    </section>
+
+</main>
+
+<% layout('./layouts/boilerplate') %>

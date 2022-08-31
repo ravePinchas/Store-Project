@@ -1,0 +1,77 @@
+<% layout('./layouts/boilerplate') %>
+
+<link href="styles/all-orders.css" rel="stylesheet" type="text/css" />
+
+
+
+<% if (typeof(user) != "undefined") { %>
+
+<main class="main container">
+    <section>
+        <div class="section-title">
+            <h2>All Orders<span>.</span></h2>
+        </div>
+
+        <p>
+            Keep track of all orders placed in the store.
+        </p>
+
+        <br>
+        <br>
+
+        <% if (orders.length > 0) { %>
+
+        <ul class="orders-list">
+            <% for (const order of orders) { %>
+            <li>
+                <details class="orders-list-item">
+                    
+                    <summary class="orders-list-item-title">
+                        <span>Order ID: <%= order._id %></span>
+                        <span class="orders-list-item-btns">
+                            <form action="/edit-order/<%= order._id %>" method="GET" title="Edit Order">
+                                <input type="hidden" value="<%= order._id %>" name="orderId">
+                                <button class="btn btn-note" type="submit"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                            </form>
+                            <form action="/delete-order" method="POST" title="Delete Order">
+                                <input type="hidden" value="<%= order._id %>" name="orderId">
+                                <button class="btn btn-warning" type="submit"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                            </form>
+                        </span>
+                    </summary>
+
+                    <div class="orders-list-item-body">
+                        <h6>Customer's Name:</h6>
+                        <p><%= order.userId.firstName %> <%= order.userId.lastName %></p>
+                        <h6>Customer's Email:</h6>
+                        <p><%= order.userId.email %></p>
+                        <h6>Customer's Orders:</h6>
+                        <ul class="orders-list-item-products">
+                            <% order.products.forEach( p => { %>
+                            <li>
+                                <%= p.product.name %> , <%= p.quantity %>
+                            </li>
+                            <% }); %>
+                        </ul>
+                        <h6>Total Price:</h6>
+                        <p>$<%= order.total %></p>
+                        
+                    </div>
+                </details>
+            </li>
+            <% } %>
+        </ul>
+
+        <% } else { %>
+        
+        <p>No Orders has been found!</p>
+        
+        <% } %>
+    </section>
+</main>
+
+<% } else { %>
+    <% throw 'restricted access'; %>
+<% } %>
+
+<% layout('./layouts/boilerplate') %>

@@ -1,0 +1,95 @@
+/* --------------------------------------------------------------------------------------------- */
+/* --- Shopping-Cart Page ---------------------------------------------------------------------- */
+
+.cart-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    margin-top: 2rem;
+}
+
+.cart {
+    width: 70%;
+}
+.cart th {
+    font-family: var(--fontFamily-heading);
+    font-weight: var(--fontWeight-black);
+    font-size: var(--fontSize-xs);
+    padding: 0.5rem;
+    border-bottom: 1px solid var(--body-bg-hl-color);
+    text-align: inherit;
+    background-color: var(--color-gray-2);
+}
+.cart td {
+    font-family: var(--fontFamily-body);
+    font-weight: var(--fontWeight-normal);
+    font-size: var(--fontSize-sm);
+    padding: 0.5rem;
+    border-bottom: 1px solid var(--body-bg-hl-color);
+    text-align: inherit;
+}
+.cart-product-image {
+    overflow: hidden;
+    border-radius: var(--radius);
+    width: 8rem;
+    height: 6rem;
+}
+.cart-product-image img {
+    height: 100%;
+    width: 100%;
+}
+
+.summary {
+    width: 30%;
+    font-size: var(--fontSize-xs);
+    margin-left: 0.5rem;
+    background-color: var(--color-gray-2);
+    padding: 0.5rem;
+    border: 1px solid var(--color-gray-3);
+    border-radius: var(--radius-lg);
+}
+.summary-field {
+    margin-bottom: 1rem;
+}
+.summary-field-title {
+    font-family: var(--fontFamily-body);
+    font-weight: var(--fontWeight-bold);
+    font-size: var(--fontSize-xs);
+    margin-bottom: 0;
+}
+.summary-field-data {
+    font-size: var(--fontSize-md);
+    margin-bottom: 0;
+}
+.coupon-input-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+}
+.coupon-input-wrapper .form-input {
+    margin: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.coupon-input-wrapper .coupon-btn {
+    border-radius: 0 var(--radius) var(--radius) 0;
+    line-height: 1.575;
+}
+
+@media only screen and (max-width: 700px) {
+    .cart-wrapper {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .cart {
+        width: 100%;
+    }
+    .summary {
+        width: 100%;
+        margin: 2rem 0 0 0;
+    }
+}
+
+/* --------------------------------------------------------------------------------------------- */
+/* --------------------------------------------------------------------------------------------- */
